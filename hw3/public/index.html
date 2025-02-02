@@ -1,0 +1,169 @@
+<!-- Theresa Wunderlich -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Page title displayed in browser tab -->
+  <title>Cheesecake Order Form</title>
+  
+  <!-- Link to external CSS file for styling -->
+  <link rel="stylesheet" href="\Users\tcwun\OneDrive\Documents\GitHub\homeworkThree\hw3\public\stylesheets\wunderlich_cs341_homeworkone.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <style>
+    /* Center-align the text in the order form */
+    #orderForm {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Main Heading -->
+  <h1>Cheesecake Order Form</h1>
+
+  <!-- Image of Cheesecake -->
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Mondays_at_Il_Forno_-_Cheesecake_with_strawberry_sauce.jpg/2560px-Mondays_at_Il_Forno_-_Cheesecake_with_strawberry_sauce.jpg" 
+       alt="Cheesecake with strawberry sauce" width="250" height="250">
+
+  <div id="orderForm">
+    <!-- Order Form Table for Quantity and Topping -->
+    <table>
+      <tr>
+        <!-- Table headers for Quantity and Topping -->
+        <td>Quantity</td>
+        <td>Topping</td>
+      </tr>
+      <tr>
+        <!-- Plain topping selection (radio button) -->
+        <td></td>
+        <td>
+          <input type="radio" id="Plain" name="Topping" value="Plain">
+          <label for="Plain">Plain</label>
+        </td>
+      </tr>
+      <tr>
+        <!-- Quantity selection dropdown -->
+        <td>
+          <label for="Quantity"></label>
+          <select name="Quantity" id="Quantity">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+        </td>
+        <!-- Cherry topping selection (radio button) -->
+        <td>
+          <input type="radio" id="Cherry" name="Topping" value="Cherry">
+          <label for="Cherry">Cherry</label>
+        </td>
+      </tr>
+      <tr>
+        <!-- Chocolate topping selection (radio button) -->
+        <td></td>
+        <td>
+          <input type="radio" id="Chocolate" name="Topping" value="Chocolate">
+          <label for="Chocolate">Chocolate</label>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Text area for special notes or instructions -->
+    <p>Notes:</p>
+    <textarea id="notes" name="notes" rows="4" cols="50">Enter any special instructions here.</textarea>
+
+    <!-- Submit button for form -->
+    <input type="submit" id="orderButton" value="Order">
+  </div>
+
+  <!-- Section displaying the total orders from last month -->
+  <section>
+    <h3>Total orders for <span class="month-widget" id="monthDisplay">Jan</span></h3>
+    <div id="monthDropdown">
+      <a href="#" data-month="Jan">Jan</a>
+      <a href="#" data-month="Feb">Feb</a>
+      <a href="#" data-month="Mar">Mar</a>
+      <a href="#" data-month="Apr">Apr</a>
+      <a href="#" data-month="May">May</a>
+      <a href="#" data-month="Jun">Jun</a>
+      <a href="#" data-month="Jul">Jul</a>
+      <a href="#" data-month="Aug">Aug</a>
+      <a href="#" data-month="Sep">Sep</a>
+      <a href="#" data-month="Oct">Oct</a>
+      <a href="#" data-month="Nov">Nov</a>
+      <a href="#" data-month="Dec">Dec</a>
+    </div>     
+    <ul>
+      <li>11 cherry</li>
+      <li>17 chocolate</li>
+      <li>31 plain</li>
+    </ul>
+  </section>
+
+  <!-- JavaScript code for form submission and dropdown menu -->
+  <script>
+  $(document).ready(function() {
+    // Attach event listener to the submit button
+    $('#orderButton').click(function(event) {
+      // Prevent the form from submitting immediately
+      event.preventDefault(); 
+  
+      // Get form field values
+      var topping = $("input[name='Topping']:checked").val();
+      var quantity = $('#Quantity').val();
+      var notes = $('#notes').val().toLowerCase(); // Convert notes to lowercase
+
+      // Check if notes contain the word vegan (case-insensitive)
+      if (notes.includes("vegan")) {
+        alert("Warning: Cheesecakes contain dairy!");
+      } else {
+        // Remove the order form after submission
+        $('#orderForm').remove();
+
+        // Create and display the order confirmation message
+        var confirmationMessage = '<p>Thank you! Your order has been placed.</p>';
+        confirmationMessage += '<p>Details of your order:</p>';
+        confirmationMessage += '<p>Topping: ' + topping + '</p>';
+        confirmationMessage += '<p>Quantity: ' + quantity + '</p>';
+        confirmationMessage += '<p>Notes: ' + notes + '</p>';
+
+        // Insert the confirmation message above the total orders section
+        $('section').before(confirmationMessage);
+      }
+    });
+
+    // Show dropdown when hovering over the month widget
+    $('.month-widget').hover(function() {
+      $('#monthDropdown').stop(true, true).slideDown(200);
+    }, function() {
+      $('#monthDropdown').stop(true, true).slideUp(200);
+    });
+
+    // Keep the dropdown open while hovering over it
+    $('#monthDropdown').hover(function() {
+      $(this).stop(true, true).show();
+    }, function() {
+      $(this).stop(true, true).slideUp(200);
+    });
+
+    // Update the month display and hide the dropdown when a month is clicked
+    $('#monthDropdown a').click(function(event) {
+      event.preventDefault();
+      var selectedMonth = $(this).data('month');
+      $('#monthDisplay').text(selectedMonth);
+      $('#monthDropdown').slideUp(200);
+    });
+  });
+  </script>
+</body>
+
+</html>
